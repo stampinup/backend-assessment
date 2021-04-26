@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using Stampin.Api.Common;
 
 namespace Stampin.Api.Test
 {

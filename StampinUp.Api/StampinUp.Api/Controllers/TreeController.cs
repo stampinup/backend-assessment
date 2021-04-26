@@ -19,12 +19,12 @@ namespace StampinUp.Api.Controllers
       this.TreeManager = treeManager;
     }
 
-    [HttpGet("GetTrees")]
-    public ActionResult<GetTreesResponse> GetTrees(GetTreesRequest request)
+    [HttpGet("GetTrees{value}")]
+    public ActionResult<GetTreesResponse> GetTrees(string value)
     {
       try
       {
-        GetTreesResponse response = this.TreeManager.GetTrees(request);
+        GetTreesResponse response = this.TreeManager.GetTrees(value);
         if (response != null)
         {
           return response;
@@ -35,24 +35,24 @@ namespace StampinUp.Api.Controllers
       }
       catch (Exception ex)
       {
-        Logger.LogError("Unable to Get Trees exception: {@Exception}", ex);
+        Logger.LogError(ex, "Unable to Get Trees exception: {@Exception}");
         return BadRequest("There was an error while retrieving records.");
       }
     }
 
 
     [HttpPost("CreateTrees")]
-    public ActionResult<CreateTreesResponse> CreateTrees(CreateTreesRequest request)
+    public ActionResult<CreateTreesResponse> CreateTrees(GetTreesRequest request)
     {
       try
       {
-        CreateTreesResponse response = this.TreeManager.CreateTrees(request);
+        CreateTreesResponse response = this.TreeManager.CreateTrees(new CreateTreesRequest());
         return response;
 
       }
       catch (Exception ex)
       {
-        Logger.LogError("Unable to create trees exception: {@Exception}", ex);
+        Logger.LogError(ex, "Unable to create trees exception: {@Exception}");
         return BadRequest("There was an error while creating records.");
       }
     }
@@ -68,7 +68,7 @@ namespace StampinUp.Api.Controllers
       }
       catch (Exception ex)
       {
-        Logger.LogError("Unable to update trees exception: {@Exception}", ex);
+        Logger.LogError(ex, "Unable to update trees exception: {@Exception}");
         return BadRequest("There was an error while updating records.");
       }
     }
@@ -85,7 +85,7 @@ namespace StampinUp.Api.Controllers
       }
       catch (Exception ex)
       {
-        Logger.LogError("Unable to delete trees exception: {@Exception}", ex);
+        Logger.LogError(ex, "Unable to delete trees exception: {@Exception}");
         return BadRequest("There was an error while deleting records.");
       }
     }

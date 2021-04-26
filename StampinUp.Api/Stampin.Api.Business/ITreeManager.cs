@@ -9,7 +9,7 @@ namespace Stampin.Api.Business
 {
   public interface ITreeManager
   {
-    public GetTreesResponse GetTrees(GetTreesRequest request);
+    public GetTreesResponse GetTrees(string value);
     public UpdateTreesResponse UpdateTrees(UpdateTreesRequest request);
     public CreateTreesResponse CreateTrees(CreateTreesRequest request);
     public DeleteTreesResponse DeleteTrees(DeleteTreeRequest request);

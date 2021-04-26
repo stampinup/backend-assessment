@@ -8,5 +8,6 @@ namespace Stampin.Api.Common
 {
   public class UpdateTreesRequest
   {
+    public List<Tree> Trees { get; set; }
   }
 }

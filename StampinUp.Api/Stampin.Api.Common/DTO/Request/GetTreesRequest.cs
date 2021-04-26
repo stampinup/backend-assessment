@@ -8,7 +8,6 @@ namespace Stampin.Api.Common
 {
   public class GetTreesRequest
   {
-    public Tree Qualities { get; set; }
     public bool UseId { get; set; }
     public bool UseName { get; set; }
     public bool UseAveSize { get; set; }

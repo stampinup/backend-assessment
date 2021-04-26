@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Stampin.Api.Common;
 
 namespace Stampin.Api.Business
@@ -19,8 +20,9 @@ namespace Stampin.Api.Business
       throw new NotImplementedException();
     }
 
-    public GetTreesResponse GetTrees(GetTreesRequest request)
+    public GetTreesResponse GetTrees(string value)
     {
+      GetTreesRequest request = JsonConvert.DeserializeObject<GetTreesRequest>(value);
       throw new NotImplementedException();
     }
 

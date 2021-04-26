@@ -7,11 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StampinUp.Api", "StampinUp.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stampin.Api.Test", "Stampin.Api.Test\Stampin.Api.Test.csproj", "{9C43C68D-6682-4E1A-8AF4-C1098E309EB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stampin.Api.Common", "Stampin.Api.Common\Stampin.Api.Common.csproj", "{0EF4A8F4-31BF-47B0-AB10-54921075914C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stampin.Api.Common", "Stampin.Api.Common\Stampin.Api.Common.csproj", "{0EF4A8F4-31BF-47B0-AB10-54921075914C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stampin.Api.Business", "Stampin.Api.Business\Stampin.Api.Business.csproj", "{049B82F5-7AEF-4A89-8F0D-E145AE1DDF04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stampin.Api.Business", "Stampin.Api.Business\Stampin.Api.Business.csproj", "{049B82F5-7AEF-4A89-8F0D-E145AE1DDF04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stampin.Api.DataAccess", "Stampin.Api.DataAccess\Stampin.Api.DataAccess.csproj", "{A4FC3323-4563-4195-8DBA-B3FF9A5A84FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stampin.Api.DataAccess", "Stampin.Api.DataAccess\Stampin.Api.DataAccess.csproj", "{A4FC3323-4563-4195-8DBA-B3FF9A5A84FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stampin.Api.IntegrationTests", "Stampin.Api.IntegrationTests\Stampin.Api.IntegrationTests.csproj", "{61FCF8AC-CC8C-4032-B10A-AA4C0CBF7572}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{A4FC3323-4563-4195-8DBA-B3FF9A5A84FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4FC3323-4563-4195-8DBA-B3FF9A5A84FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4FC3323-4563-4195-8DBA-B3FF9A5A84FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61FCF8AC-CC8C-4032-B10A-AA4C0CBF7572}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61FCF8AC-CC8C-4032-B10A-AA4C0CBF7572}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61FCF8AC-CC8C-4032-B10A-AA4C0CBF7572}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61FCF8AC-CC8C-4032-B10A-AA4C0CBF7572}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

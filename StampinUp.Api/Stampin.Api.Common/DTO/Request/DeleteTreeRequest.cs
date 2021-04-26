@@ -8,5 +8,6 @@ namespace Stampin.Api.Common
 {
   public class DeleteTreeRequest
   {
+    public int Id { get; set; }
   }
 }
