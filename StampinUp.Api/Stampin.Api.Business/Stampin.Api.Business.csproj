@@ -4,4 +4,8 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Stampin.Api.Common\Stampin.Api.Common.csproj" />
+  </ItemGroup>
+
 </Project>
