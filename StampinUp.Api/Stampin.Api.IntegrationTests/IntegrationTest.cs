@@ -40,11 +40,8 @@ namespace Stampin.Api.IntegrationTests
         {
           new Tree
           {
-            AveSize = new Size
-            {
-              Height = 35,
-              Width = 20
-            },
+              Height = "35 ft",
+              Width = "20 ft",
              Conifer = true,
              Deciduous = true,
              FallColor = Color.Brown,
@@ -53,11 +50,8 @@ namespace Stampin.Api.IntegrationTests
           },
           new Tree
           {
-            AveSize = new Size
-            {
-              Height = 25,
-              Width = 20
-            },
+              Height = "25, ft",
+              Width = "20 ft",
              Conifer = false,
              Deciduous = true,
              FallColor = Color.Red,
@@ -78,12 +72,9 @@ namespace Stampin.Api.IntegrationTests
         {
           new Tree
           {
-            Id = 4,
-            AveSize = new Size
-            {
-              Height = 35,
-              Width = 20
-            },
+            Id = "4",
+              Height = "35 ft",
+              Width = "20 ft",
              Conifer = true,
              Deciduous = true,
              FallColor = Color.None,
@@ -92,12 +83,9 @@ namespace Stampin.Api.IntegrationTests
           },
           new Tree
           {
-            Id = 1,
-            AveSize = new Size
-            {
-              Height = 30,
-              Width = 20
-            },
+            Id = "1",
+              Height = "30 ft",
+              Width = "20 ft",
              Conifer = false,
              Deciduous = true,
              FallColor = Color.Red,

@@ -6,19 +6,39 @@ using Stampin.Api.Common;
 
 namespace StampinUp.Api.Controllers
 {
+  /// <summary>
+  /// Tree Controller api 
+  /// </summary>
   [Route("api/[controller]")]
   [ApiController]
   public class TreeController : Controller
   {
+    /// <summary>
+    /// the Logger
+    /// </summary>
     private readonly ILogger<TreeController> Logger;
+
+    /// <summary>
+    /// the tree manager
+    /// </summary>
     private readonly ITreeManager TreeManager;
 
+    /// <summary>
+    /// The Tree constructor
+    /// </summary>
+    /// <param name="logger">the logger</param>
+    /// <param name="treeManager">the tree manager Interface</param>
     public TreeController(ILogger<TreeController> logger, ITreeManager treeManager)
     {
       this.Logger = logger;
       this.TreeManager = treeManager;
     }
 
+    /// <summary>
+    /// Gets a tree record
+    /// </summary>
+    /// <param name="value">records to get</param>
+    /// <returns>Get Trees Response</returns>
     [HttpGet("GetTrees{value}")]
     public ActionResult<GetTreesResponse> GetTrees(string value)
     {
@@ -30,7 +50,7 @@ namespace StampinUp.Api.Controllers
           return response;
         }
 
-        return NotFound("No records exist.");
+        return base.NotFound("No records exist.");
 
       }
       catch (Exception ex)
@@ -40,14 +60,23 @@ namespace StampinUp.Api.Controllers
       }
     }
 
-
+    /// <summary>
+    /// Creates a tree record
+    /// </summary>
+    /// <param name="request">GetTreesRequest</param>
+    /// <returns>Create Trees Response</returns>
     [HttpPost("CreateTrees")]
-    public ActionResult<CreateTreesResponse> CreateTrees(GetTreesRequest request)
+    public ActionResult<CreateTreesResponse> CreateTrees(CreateTreesRequest request)
     {
       try
       {
-        CreateTreesResponse response = this.TreeManager.CreateTrees(new CreateTreesRequest());
-        return response;
+        CreateTreesResponse response = this.TreeManager.CreateTrees(request);
+        if (response != null)
+        {
+          return response;
+        }
+
+        return NotFound("Could not add record");
 
       }
       catch (Exception ex)
@@ -57,13 +86,23 @@ namespace StampinUp.Api.Controllers
       }
     }
 
+    /// <summary>
+    /// Updates the tree record
+    /// </summary>
+    /// <param name="request">Update Trees Request</param>
+    /// <returns>Update Trees Response</returns>
     [HttpPut("UpdateTrees")]
     public ActionResult<UpdateTreesResponse> UpdateTrees(UpdateTreesRequest request)
     {
       try
       {
         UpdateTreesResponse response = this.TreeManager.UpdateTrees(request);
-        return response;
+        if (response != null)
+        {
+          return response;
+        }
+
+        return NotFound("Unable to update record.");
 
       }
       catch (Exception ex)
@@ -73,14 +112,23 @@ namespace StampinUp.Api.Controllers
       }
     }
 
+    /// <summary>
+    /// Deletes the record
+    /// </summary>
+    /// <param name="request">Delete Tree Request</param>
+    /// <returns>Delete Trees Response</returns>
     [HttpDelete("DeleteTrees")]
     public ActionResult<DeleteTreesResponse> DeleteTrees(DeleteTreeRequest request)
     {
       try
       {
         DeleteTreesResponse response = this.TreeManager.DeleteTrees(request);
-        return response;
+        if (response != null)
+        {
+          return response;
+        }
 
+        return NotFound("Unable to delete record.");
 
       }
       catch (Exception ex)

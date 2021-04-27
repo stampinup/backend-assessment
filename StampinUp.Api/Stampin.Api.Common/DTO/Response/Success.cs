@@ -8,5 +8,8 @@ namespace Stampin.Api.Common
 {
   public class Success
   {
+    public bool Successfull { get; set; }
+    public string Msg { get; set; }
+    public Exception Ex { get; set; }
   }
 }

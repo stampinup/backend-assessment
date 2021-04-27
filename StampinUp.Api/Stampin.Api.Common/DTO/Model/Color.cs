@@ -14,6 +14,8 @@ namespace Stampin.Api.Common
     Yellow,
     Purple,
     Green,
+    Blue,
+    White,
     Brown
   }
 }

@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Stampin.Api.Common\Stampin.Api.Common.csproj" />
+    <ProjectReference Include="..\Stampin.Api.DataAccess\Stampin.Api.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>
