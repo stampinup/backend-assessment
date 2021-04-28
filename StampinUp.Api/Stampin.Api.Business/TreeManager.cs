@@ -23,6 +23,10 @@ namespace Stampin.Api.Business
     /// the weed manager
     /// </summary>
     private readonly IPlantContext PlantContext;
+    public TreeManager(ILogger<TreeManager> logger, IPlantContext plantc) 
+    {
+      this.PlantContext = plantc;
+    }
 
     public TreeManager(ILogger<TreeManager> logger, IServiceProvider serviceProvider)
     {
@@ -113,7 +117,7 @@ namespace Stampin.Api.Business
                 if (valid)
                 {
                   var ids = this.PlantContext.GetTreesById(result);
-                  if (ids.Successfull && ids.Values != null)
+                  if (ids != null && ids.Successfull && ids.Values != null)
                   {
                     treeResponse.Trees.Add(item.Key, new List<Tree> { ids.Values });
                   }
@@ -122,12 +126,20 @@ namespace Stampin.Api.Business
                     failed = true;
                   }
                 }
+                else
+                {
+                  failed = true;
+                }
+
                 break;
               }
             case "Name":
-              {
+              {if (item.Value == "false")
+                {
+                  break;
+                }
                 var names = this.PlantContext.GetTreesByName(item.Value);
-                if (names.Successfull && names.Values != null)
+                if (names != null && names.Successfull && names.Values != null)
                 {
                   treeResponse.Trees.Add(item.Key, names.Values);
                 }
@@ -139,8 +151,13 @@ namespace Stampin.Api.Business
               }
             case "Deciduous":
               {
+                if(item.Value == "false")
+                {
+                  break;
+                }
+
                 var deciduous = this.PlantContext.GetDeciduousTrees();
-                if (deciduous.Successfull && deciduous.Values != null)
+                if (deciduous != null && deciduous.Successfull && deciduous.Values != null)
                 {
                   treeResponse.Trees.Add(item.Key, deciduous.Values);
                 }
@@ -152,8 +169,13 @@ namespace Stampin.Api.Business
               }
             case "Conifer":
               {
+                if (item.Value == "false")
+                {
+                  break;
+                }
+
                 var conifer = this.PlantContext.GetConiferisTrees();
-                if (conifer.Successfull && conifer.Values != null)
+                if (conifer != null && conifer.Successfull && conifer.Values != null)
                 {
                   treeResponse.Trees.Add(item.Key, conifer.Values);
                 }
@@ -165,8 +187,13 @@ namespace Stampin.Api.Business
               }
             case "FallColor":
               {
+                if (item.Value == "false")
+                {
+                  break;
+                }
+
                 var fallColor = this.PlantContext.GetTreesWithFallColor();
-                if (fallColor.Successfull && fallColor.Values != null)
+                if (fallColor != null && fallColor.Successfull && fallColor.Values != null)
                 {
                   treeResponse.Trees.Add(item.Key, fallColor.Values);
                 }
@@ -178,8 +205,13 @@ namespace Stampin.Api.Business
               }
             case "SpringFlowers":
               {
+                if (item.Value == "false")
+                {
+                  break;
+                }
+
                 var springFlowers = this.PlantContext.GetTreesWithSpringFlowers();
-                if (springFlowers.Successfull && springFlowers.Values != null)
+                if (springFlowers != null && springFlowers.Successfull && springFlowers.Values != null)
                 {
                   treeResponse.Trees.Add(item.Key, springFlowers.Values);
                 }

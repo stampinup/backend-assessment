@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Stampin.Api.Common;
@@ -22,6 +20,9 @@ namespace Stampin.Api.Business
     /// </summary>
     private readonly IPlantContext PlantContext;
 
+    public WeedManager()
+    {
+    }
     public WeedManager(ILogger<WeedManager> logger, IServiceProvider serviceProvider)
     {
       this.Logger = logger;
@@ -112,7 +113,7 @@ namespace Stampin.Api.Business
                 if (valid)
                 {
                   var ids = this.PlantContext.GetweedById(result);
-                  if (ids.Successfull && ids.Values != null)
+                  if (ids != null && ids.Successfull && ids.Values != null)
                   {
                     weedResponse.Weeds.Add(item.Key, new List<Weed> { ids.Values });
                   }
@@ -121,12 +122,16 @@ namespace Stampin.Api.Business
                     failed = true;
                   }
                 }
+                else
+                {
+                  failed = true;
+                }
                 break;
               }
             case "Name":
               {
                 var names = this.PlantContext.GetWeedsByName(item.Value);
-                if (names.Successfull && names.Values != null)
+                if (names != null && names.Successfull && names.Values != null)
                 {
                   weedResponse.Weeds.Add(item.Key, names.Values);
                 }
@@ -138,8 +143,13 @@ namespace Stampin.Api.Business
               }
             case "FlowerColor":
               {
+                if (item.Value == "false")
+                {
+                  break;
+                }
+
                 var color = this.PlantContext.GetWeedsWithFlowerColor();
-                if (color.Successfull && color.Values != null)
+                if (color != null && color.Successfull && color.Values != null)
                 {
                   weedResponse.Weeds.Add(item.Key, color.Values);
                 }
@@ -151,8 +161,13 @@ namespace Stampin.Api.Business
               }
             case "Thorns":
               {
+                if (item.Value == "false")
+                {
+                  break;
+                }
+
                 var thorns = this.PlantContext.GetWeedsWithThorns();
-                if (thorns.Successfull && thorns.Values != null)
+                if (thorns != null && thorns.Successfull && thorns.Values != null)
                 {
                   weedResponse.Weeds.Add(item.Key, thorns.Values);
                 }

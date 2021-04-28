@@ -22,17 +22,29 @@ namespace Stampin.Api.IntegrationTests
     private readonly string Delete = "DELETE";
     public void RunTests()
     {
-      GetTreeTest();
-      this.CreateTrees();
+      try
+      {
+        var getResult = this.GetTreeTest("Id=1&Name=Acer&Deciduous=false&Conifer=false&FallColor=true&SpringFlowers=true");
+        var getZero = this.GetTreeTest("Id=0");
+        var getFallTreesResult = this.GetTreeTest("FallColor=true");
+        var getConifersResult = this.GetTreeTest("Conifer=true");
+        var createResult = this.CreateTrees();
+        var updateResult = this.UpdateTrees();
+        var deleteResult = this.DeleteTrees();
+        var success = getResult.Success.Successfull && createResult.Success.Successfull && updateResult.Success.Successfull && deleteResult.Success.Successfull;
+      }
+      catch(Exception ex)
+      {
+        var msg = "look at the exeption";
+      }
     }
 
-    public void GetTreeTest()
+    public GetTreesResponse GetTreeTest(string args)
     {
-      string args = "Id=1&Name=Acer&Deciduous=false&Conifer=false&FallColor=true&SpringFlowers=true";
-      GetTreesResponse response = this.Call<GetTreesResponse, string>(args, this.GetTreeAddr, this.Get);
+      return this.Call<GetTreesResponse, string>(args, this.GetTreeAddr, this.Get);
     }
 
-    public void CreateTrees()
+    public CreateTreesResponse CreateTrees()
     {
       CreateTreesRequest request = new CreateTreesRequest
       {
@@ -61,10 +73,10 @@ namespace Stampin.Api.IntegrationTests
         }
       };
 
-      CreateTreesResponse response = this.Call<CreateTreesResponse, CreateTreesRequest>(request, this.CreateTreeAddr, this.Post);
+      return this.Call<CreateTreesResponse, CreateTreesRequest>(request, this.CreateTreeAddr, this.Post);
     }
 
-    public void UpdateTrees()
+    public UpdateTreesResponse UpdateTrees()
     {
       UpdateTreesRequest request = new UpdateTreesRequest
       {
@@ -95,16 +107,16 @@ namespace Stampin.Api.IntegrationTests
         }
       };
 
-      UpdateTreesResponse response = this.Call<UpdateTreesResponse, UpdateTreesRequest>(request, this.UpdateTreeAddr, this.Put);
+      return this.Call<UpdateTreesResponse, UpdateTreesRequest>(request, this.UpdateTreeAddr, this.Put);
     }
-    public void DeleteTrees()
+    public DeleteTreesResponse DeleteTrees()
     {
       DeleteTreeRequest request = new DeleteTreeRequest
       {
         Id = 4
       };
 
-      DeleteTreesResponse response = this.Call<DeleteTreesResponse, DeleteTreeRequest>(request, this.UpdateTreeAddr, this.Delete);
+      return this.Call<DeleteTreesResponse, DeleteTreeRequest>(request, this.UpdateTreeAddr, this.Delete);
     }
 
 
