@@ -55,7 +55,7 @@ namespace StampinUp.Api.Controllers
       }
       catch (Exception ex)
       {
-        Logger.LogError(ex, "Unable to Get Weeds exception: {@Exception}");
+        Logger.LogError(ex, "Unable to Get Weeds");
         return BadRequest("There was an error while retrieving records.");
       }
     }
@@ -81,7 +81,7 @@ namespace StampinUp.Api.Controllers
       }
       catch (Exception ex)
       {
-        Logger.LogError(ex, "Unable to create weeds exception: {@Exception}");
+        Logger.LogError(ex, "Unable to create weeds");
         return BadRequest("There was an error while creating records.");
       }
     }
@@ -107,7 +107,7 @@ namespace StampinUp.Api.Controllers
       }
       catch (Exception ex)
       {
-        Logger.LogError(ex, "Unable to update weeds exception: {@Exception}");
+        Logger.LogError(ex, "Unable to update weeds");
         return BadRequest("There was an error while updating records.");
       }
     }
@@ -133,7 +133,7 @@ namespace StampinUp.Api.Controllers
       }
       catch (Exception ex)
       {
-        Logger.LogError(ex, "Unable to delete weeds exception: {@Exception}");
+        Logger.LogError(ex, "Unable to delete weeds");
         return BadRequest("There was an error while deleting records.");
       }
     }

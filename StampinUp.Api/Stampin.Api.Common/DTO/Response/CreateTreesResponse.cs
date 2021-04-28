@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace Stampin.Api.Common
 {
-  public class CreateTreesResponse : Success
+  /// <summary>
+  /// create tree response
+  /// </summary>
+  public class CreateTreesResponse
   {
+    /// <summary>
+    /// success value
+    /// </summary>
+    public Success Success { get; set; }
   }
 }

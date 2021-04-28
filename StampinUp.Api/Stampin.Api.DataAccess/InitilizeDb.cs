@@ -5,8 +5,15 @@ using Stampin.Api.Common;
 
 namespace Stampin.Api.DataAccess
 {
+  /// <summary>
+  /// class to initilize the db
+  /// </summary>
   public class InitilizeDb
   {
+    /// <summary>
+    /// initilizes the db
+    /// </summary>
+    /// <param name="context">plant context object</param>
     public static void Initialize(PlantContext context)
     {
       context.Database.EnsureCreated();
@@ -18,7 +25,6 @@ namespace Stampin.Api.DataAccess
 
       context.TreeX.Add(new Tree
       {
-        Id = "TD1",
         Height = "35 ft",
         Width = "20 ft",
         Conifer = true,
@@ -31,7 +37,6 @@ namespace Stampin.Api.DataAccess
 
       context.TreeX.Add(new Tree
       {
-        Id = "AR1",
         Height = "30 ft",
         Width = "20 ft",
         Conifer = false,
@@ -43,7 +48,6 @@ namespace Stampin.Api.DataAccess
 
       context.TreeX.Add(new Tree
       {
-        Id = "ZS1",
         Height = "20 ft",
         Width = "10 ft",
         Conifer = false,
@@ -57,7 +61,6 @@ namespace Stampin.Api.DataAccess
 
       context.WeedX.Add(new Weed
       {
-        Id = "CV1",
         Height = "2.5 ft",
         Width = "3 in",
         FlowerColor = Color.Purple,
@@ -68,7 +71,6 @@ namespace Stampin.Api.DataAccess
 
       context.WeedX.Add(new Weed
       {
-        Id = "MN1",
         Height = "2 in",
         Width = "6 in",
         FlowerColor = Color.Purple,
@@ -79,7 +81,6 @@ namespace Stampin.Api.DataAccess
 
       context.WeedX.Add(new Weed
       {
-        Id = "IP1",
         Height = "Climbs",
         Width = "Spreads",
         OverallColor = Color.Green,
@@ -90,7 +91,6 @@ namespace Stampin.Api.DataAccess
 
       context.WeedX.Add(new Weed
       {
-        Id = "T1",
         Height = "6 in",
         Width = "6 in",
         OverallColor = Color.Green,

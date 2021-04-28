@@ -24,7 +24,6 @@ namespace StampinUp.Api
     {
       services.AddSingleton<ITreeManager, TreeManager>();
       services.AddSingleton<IWeedManager, WeedManager>();
-      services.AddSingleton<IPlantContext, PlantContext>();
       services.AddDbContext<PlantContext>(options =>
           options.UseSqlServer(Configuration.GetConnectionString("PlantsSQLConnectionString")));
       services.AddControllers();

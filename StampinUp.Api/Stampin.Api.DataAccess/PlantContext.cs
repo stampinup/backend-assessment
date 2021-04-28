@@ -10,32 +10,57 @@ using Stampin.Api.Common;
 
 namespace Stampin.Api.DataAccess
 {
+  /// <summary>
+  /// Plantcontext data access class
+  /// </summary>
   public class PlantContext : DbContext, IPlantContext
   {
-    public PlantContext(ILogger<PlantContext> logger, DbContextOptions<PlantContext> options) : base(options)
+    /// <summary>
+    /// the Logger
+    /// </summary>
+    private readonly ILogger<PlantContext> Logger;
+
+    /// <summary>
+    /// Plantcontext constructor
+    /// </summary>
+    public PlantContext(ILogger<PlantContext> logger, DbContextOptions<PlantContext> options) 
+      : base(options)
     {
+      Logger = logger;
     }
 
+    /// <summary>
+    /// Tree dbSet
+    /// </summary>
     public DbSet<Tree> TreeX { get; set; }
+
+    /// <summary>
+    /// weed dbset
+    /// </summary>
     public DbSet<Weed> WeedX { get; set; }
 
-    public Success UpsertTree(Tree request)
+    /// <inheritdoc />
+    public Success UpsertTree(List<Tree> request)
     {
       try
       {
-        var item = this.TreeX.FirstOrDefault(x => x.Id == request.Id);
-        bool create = item == null;
-        item ??= new Tree();
-        item.Name = request.Name;
-        item.FallColor = request.FallColor;
-        item.Conifer = request.Conifer;
-        item.Deciduous = request.Deciduous;
-        item.SpringFlowers = request.SpringFlowers;
-        item.Width = request.Width;
-        item.Height = request.Height;
-        if (create)
+        foreach (var tree in request)
         {
-          this.TreeX.Add(item);
+          var item = this.TreeX.FirstOrDefault(x => x.Id == tree.Id);
+          bool create = item == null;
+          item ??= new Tree();
+          item.Id = tree.Id;
+          item.Name = tree.Name;
+          item.FallColor = tree.FallColor;
+          item.Conifer = tree.Conifer;
+          item.Deciduous = tree.Deciduous;
+          item.SpringFlowers = tree.SpringFlowers;
+          item.Width = tree.Width;
+          item.Height = tree.Height;
+          if (create)
+          {
+            this.TreeX.Add(item);
+          }
         }
 
         this.SaveChanges();
@@ -46,32 +71,36 @@ namespace Stampin.Api.DataAccess
       }
       catch (Exception ex)
       {
+        Logger.LogError(ex, "Unable to upsert Tree");
         return new Success
         {
           Msg = $"unable to upsert Tree: {JsonConvert.SerializeObject(request)}",
-          Successfull = false,
-          Ex = ex
+          Successfull = false
         };
       }
     }
 
-
-    public Success UpsertWeed(Weed request)
+    /// <inheritdoc />
+    public Success UpsertWeed(List<Weed> request)
     {
       try
       {
-        var item = this.WeedX.FirstOrDefault(x => x.Id == request.Id);
-        bool create = item == null;
-        item ??= new Weed();
-        item.Name = request.Name;
-        item.FlowerColor = request.FlowerColor;
-        item.OverallColor = request.OverallColor;
-        item.Thorns = request.Thorns;
-        item.Width = request.Width;
-        item.Height = request.Height;
-        if (create)
+        foreach (var weed in request)
         {
-          this.WeedX.Add(item);
+          var item = this.WeedX.FirstOrDefault(x => x.Id == weed.Id);
+          bool create = item == null;
+          item ??= new Weed();
+          item.Id = weed.Id;
+          item.Name = weed.Name;
+          item.FlowerColor = weed.FlowerColor;
+          item.OverallColor = weed.OverallColor;
+          item.Thorns = weed.Thorns;
+          item.Width = weed.Width;
+          item.Height = weed.Height;
+          if (create)
+          {
+            this.WeedX.Add(item);
+          }
         }
 
         this.SaveChanges();
@@ -83,17 +112,17 @@ namespace Stampin.Api.DataAccess
       }
       catch (Exception ex)
       {
+        Logger.LogError(ex, "Unable to upsert weed");
         return new Success
         {
           Msg = $"unable to upsert Weed: {JsonConvert.SerializeObject(request)}",
-          Successfull = false,
-          Ex = ex
+          Successfull = false
         };
       }
     }
 
-
-    public Success DeleteWeed(string id)
+    /// <inheritdoc />
+    public Success DeleteWeed(int id)
     {
       try
       {
@@ -111,16 +140,17 @@ namespace Stampin.Api.DataAccess
       }
       catch (Exception ex)
       {
+        Logger.LogError(ex, "Unable to delete weed");
         return new Success
         {
           Msg = $"unable to Delete Weed: {id}",
-          Successfull = false,
-          Ex = ex
+          Successfull = false
         };
       }
     }
 
-    public Success DeleteTree(string id)
+    /// <inheritdoc />
+    public Success DeleteTree(int id)
     {
       try
       {
@@ -138,126 +168,234 @@ namespace Stampin.Api.DataAccess
       }
       catch (Exception ex)
       {
+        Logger.LogError(ex, "Unable to delete tree");
         return new Success
         {
           Msg = $"unable to Delete Tree: {id}",
-          Successfull = false,
-          Ex = ex
+          Successfull = false
         };
       }
     }
 
-    public Tree GetTreesById(string id)
+    /// <inheritdoc />
+    public Response<Tree> GetTreesById(int id)
     {
       try
       {
-        return this.TreeX.FirstOrDefault(x => x.Id == id);
-      }
-      catch (Exception)
-      {
-        throw;
+        return new Response<Tree>
+        {
+          Values = this.TreeX.FirstOrDefault(x => x.Id == id),
+          Successfull = true
         };
-    }
-    public List<Tree> GetTreesByName(string name)
-    {
-      try
-      {
-        return this.TreeX.Where(x => x.Name.Contains(name)).ToList();
+
       }
-      catch (Exception)
+      catch (Exception ex)
       {
-        throw;
-      };
-    }
-    public List<Tree> GetTreesWithFallColor()
-    {
-      try
-      {
-        return this.TreeX.Where(x => x.FallColor != Color.None).ToList();
+        Logger.LogError(ex, "Unable to get tree");
+        return new Response<Tree>
+        {
+          Msg = "Unable to get tree",
+          Successfull = false
+        };
       }
-      catch (Exception)
-      {
-        throw;
-      };
-    }
-    public List<Tree> GetTreesWithSpringFlowers()
-    {
-      try
-      {
-        return this.TreeX.Where(x => x.SpringFlowers).ToList();
-      }
-      catch (Exception)
-      {
-        throw;
-      };
-    }
-    public List<Tree> GetConiferisTrees()
-    {
-      try
-      {
-        return this.TreeX.Where(x => x.Conifer).ToList();
-      }
-      catch (Exception)
-      {
-        throw;
-      };
-    }
-    public List<Tree> GetDeciduousTrees()
-    {
-      try
-      {
-        return this.TreeX.Where(x => x.Deciduous).ToList();
-      }
-      catch (Exception)
-      {
-        throw;
-      };
     }
 
+    /// <inheritdoc />
+    public Response<List<Tree>> GetTreesByName(string name)
+    {
+      try
+      {
+        return new Response<List<Tree>>
+        {
+          Values = this.TreeX.Where(x => x.Name.Contains(name)).ToList(),
+          Successfull = true
+        };
+      }
+      catch (Exception ex)
+      {
+        Logger.LogError(ex, "Unable to get tree by name");
+        return new Response<List<Tree>>
+        {
+          Msg = "Unable to get tree by name",
+          Successfull = false
+        };
+      }
+    }
 
-    public Weed GetweedById(string id)
+    /// <inheritdoc />
+    public Response<List<Tree>> GetTreesWithFallColor()
     {
       try
       {
-        return this.WeedX.FirstOrDefault(x => x.Id == id);
+        return new Response<List<Tree>>
+        {
+          Values = this.TreeX.Where(x => x.FallColor != Color.None).ToList(),
+          Successfull = true
+        };
       }
-      catch (Exception)
+      catch (Exception ex)
       {
-        throw;
-      };
+        Logger.LogError(ex, "Unable to get tree with fall color");
+        return new Response<List<Tree>>
+        {
+          Msg = "Unable to get tree with fall color",
+          Successfull = false
+        };
+      }
     }
-    public List<Weed> GetWeedsByName(string name)
+
+    /// <inheritdoc />
+    public Response<List<Tree>> GetTreesWithSpringFlowers()
     {
       try
       {
-        return this.WeedX.Where(x => x.Name.Contains(name)).ToList();
+        return new Response<List<Tree>>
+        {
+          Values = this.TreeX.Where(x => x.SpringFlowers).ToList(),
+          Successfull = true
+        };
       }
-      catch (Exception)
+      catch (Exception ex)
       {
-        throw;
-      };
+        Logger.LogError(ex, "Unable to get tree with flowers");
+        return new Response<List<Tree>>
+        {
+          Msg = "Unable to get tree with spring flowers",
+          Successfull = false
+        };
+      }
     }
-    public List<Weed> GetWeedsWithFlowerColor()
+
+    /// <inheritdoc />
+    public Response<List<Tree>> GetConiferisTrees()
     {
       try
       {
-        return this.WeedX.Where(x => x.FlowerColor != Color.None).ToList();
+        return new Response<List<Tree>>
+        {
+          Values = this.TreeX.Where(x => x.Conifer).ToList(),
+          Successfull = true
+        };
       }
-      catch (Exception)
+      catch (Exception ex)
       {
-        throw;
-      };
+        Logger.LogError(ex, "Unable to get conifer trees");
+        return new Response<List<Tree>>
+        {
+          Msg = "Unable to get conifer tree ",
+          Successfull = false
+        };
+      }
     }
-    public List<Weed> GetWeedsWithThorns()
+
+    /// <inheritdoc />
+    public Response<List<Tree>> GetDeciduousTrees()
     {
       try
       {
-        return this.WeedX.Where(x => x.Thorns).ToList();
+        return new Response<List<Tree>>
+        {
+          Values = this.TreeX.Where(x => x.Deciduous).ToList(),
+          Successfull = true
+        };
       }
-      catch (Exception)
+      catch (Exception ex)
       {
-        throw;
-      };
+        Logger.LogError(ex, "Unable to get deciduous trees");
+        return new Response<List<Tree>>
+        {
+          Msg = "Unable to get deciduous trees",
+          Successfull = false
+        };
+      }
+    }
+
+    /// <inheritdoc />
+    public Response<Weed> GetweedById(int id)
+    {
+      try
+      {
+        return new Response<Weed>
+        {
+          Values = this.WeedX.FirstOrDefault(x => x.Id == id),
+          Successfull = true
+        };
+      }
+      catch (Exception ex)
+      {
+        Logger.LogError(ex, "Unable to get weed by id");
+        return new Response<Weed>
+        {
+          Msg = "Unable to get  weed by id",
+          Successfull = false
+        };
+      }
+    }
+
+    /// <inheritdoc />
+    public Response<List<Weed>> GetWeedsByName(string name)
+    {
+      try
+      {
+        return new Response<List<Weed>>
+        {
+          Values = this.WeedX.Where(x => x.Name.Contains(name)).ToList(),
+          Successfull = true
+        };
+      }
+      catch (Exception ex)
+      {
+        Logger.LogError(ex, "Unable to get weeds by name");
+        return new Response<List<Weed>>
+        {
+          Msg = "Unable to get  weed by name",
+          Successfull = false
+        };
+      }
+    }
+
+    /// <inheritdoc />
+    public Response<List<Weed>> GetWeedsWithFlowerColor()
+    {
+      try
+      {
+        return new Response<List<Weed>>
+        {
+          Values = this.WeedX.Where(x => x.FlowerColor != Color.None).ToList(),
+          Successfull = true
+        };
+      }
+      catch (Exception ex)
+      {
+        Logger.LogError(ex, "Unable to get weeds with flowers");
+        return new Response<List<Weed>>
+        {
+          Msg = "Unable to get weeds with flowers",
+          Successfull = false
+        };
+      }
+    }
+
+    /// <inheritdoc />
+    public Response<List<Weed>> GetWeedsWithThorns()
+    {
+      try
+      {
+        return new Response<List<Weed>>
+        {
+          Values = this.WeedX.Where(x => x.Thorns).ToList(),
+          Successfull = true
+        };
+      }
+      catch (Exception ex)
+      {
+        Logger.LogError(ex, "Unable to get weeds with thorns");
+        return new Response<List<Weed>>
+        {
+          Msg = "Unable to get weeds with thorns",
+          Successfull = false
+        };
+      }
     }
   }
 }

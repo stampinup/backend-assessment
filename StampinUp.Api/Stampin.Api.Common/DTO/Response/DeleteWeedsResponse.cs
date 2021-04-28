@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace Stampin.Api.Common
 {
-  public class DeleteWeedsResponse : Success
+  /// <summary>
+  /// delete weed response
+  /// </summary>
+  public class DeleteWeedsResponse
   {
+    /// <summary>
+    /// success value
+    /// </summary>
+    public Success Success { get; set; }
   }
 }

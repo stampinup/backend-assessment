@@ -6,10 +6,19 @@ using System.Threading.Tasks;
 
 namespace Stampin.Api.Common
 {
+  /// <summary>
+  /// success class
+  /// </summary>
   public class Success
   {
+    /// <summary>
+    /// is successfull
+    /// </summary>
     public bool Successfull { get; set; }
+
+    /// <summary>
+    /// error message
+    /// </summary>
     public string Msg { get; set; }
-    public Exception Ex { get; set; }
   }
 }

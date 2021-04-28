@@ -6,8 +6,19 @@ using System.Threading.Tasks;
 
 namespace Stampin.Api.Common
 {
-  public class GetTreesResponse : Success
+  /// <summary>
+  /// get tree request
+  /// </summary>
+  public class GetTreesResponse
   {
-    public IEnumerable<Tree> Trees { get; set; }
+    /// <summary>
+    /// success value
+    /// </summary>
+    public Success Success { get; set; }
+
+    /// <summary>
+    /// sets of trees recieved
+    /// </summary>
+    public Dictionary<string,List<Tree>> Trees { get; set; }
   }
 }

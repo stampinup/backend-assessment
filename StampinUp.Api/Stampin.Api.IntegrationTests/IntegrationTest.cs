@@ -28,7 +28,7 @@ namespace Stampin.Api.IntegrationTests
 
     public void GetTreeTest()
     {
-      string args = "{UseId=false&UseName=false&=false&UseAveSize=false&UseDeciduous=false&UseConifer=false&UseFallColor=true&UseSpringFlowers=true}";
+      string args = "Id=1&Name=Acer&Deciduous=false&Conifer=false&FallColor=true&SpringFlowers=true";
       GetTreesResponse response = this.Call<GetTreesResponse, string>(args, this.GetTreeAddr, this.Get);
     }
 
@@ -72,7 +72,7 @@ namespace Stampin.Api.IntegrationTests
         {
           new Tree
           {
-            Id = "4",
+            Id = 4,
               Height = "35 ft",
               Width = "20 ft",
              Conifer = true,
@@ -83,7 +83,7 @@ namespace Stampin.Api.IntegrationTests
           },
           new Tree
           {
-            Id = "1",
+            Id = 1,
               Height = "30 ft",
               Width = "20 ft",
              Conifer = false,

@@ -55,7 +55,7 @@ namespace StampinUp.Api.Controllers
       }
       catch (Exception ex)
       {
-        Logger.LogError(ex, "Unable to Get Trees exception: {@Exception}");
+        Logger.LogError(ex, "Unable to Get Trees");
         return BadRequest("There was an error while retrieving records.");
       }
     }
@@ -81,7 +81,7 @@ namespace StampinUp.Api.Controllers
       }
       catch (Exception ex)
       {
-        Logger.LogError(ex, "Unable to create trees exception: {@Exception}");
+        Logger.LogError(ex, "Unable to create trees");
         return BadRequest("There was an error while creating records.");
       }
     }
@@ -107,7 +107,7 @@ namespace StampinUp.Api.Controllers
       }
       catch (Exception ex)
       {
-        Logger.LogError(ex, "Unable to update trees exception: {@Exception}");
+        Logger.LogError(ex, "Unable to update trees");
         return BadRequest("There was an error while updating records.");
       }
     }
@@ -133,7 +133,7 @@ namespace StampinUp.Api.Controllers
       }
       catch (Exception ex)
       {
-        Logger.LogError(ex, "Unable to delete trees exception: {@Exception}");
+        Logger.LogError(ex, "Unable to delete trees");
         return BadRequest("There was an error while deleting records.");
       }
     }

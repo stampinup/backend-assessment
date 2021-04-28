@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 namespace Stampin.Api.Common
 {
   /// <summary>
-  /// create tree request
+  /// response object
   /// </summary>
-  public class CreateTreesRequest
+  /// <typeparam name="T"></typeparam>
+  public class Response<T> : Success
   {
     /// <summary>
-    /// list of trees to create
+    /// respnse values
     /// </summary>
-    public List<Tree> Trees { get; set; }
+    public T Values { get; set; }
   }
 }

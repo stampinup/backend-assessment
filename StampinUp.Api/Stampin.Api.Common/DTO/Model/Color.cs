@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Stampin.Api.Common
 {
+  /// <summary>
+  /// enum colors
+  /// </summary>
   public enum Color
   {
     None,
