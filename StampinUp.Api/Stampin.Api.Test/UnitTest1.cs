@@ -13,6 +13,8 @@ namespace Stampin.Api.Test
   {
     TreeManager TreeManager;
     private Mock<ILogger<TreeManager>> testLogger;
+    WeedManager WeedManager;
+    private Mock<ILogger<WeedManager>> weedLogger;
     private Mock<IPlantContext> PlantC;
 
    [SetUp]
@@ -21,6 +23,8 @@ namespace Stampin.Api.Test
       PlantC = new Mock<IPlantContext>();
       testLogger = new Mock<ILogger<TreeManager>>();
       TreeManager = new TreeManager(testLogger.Object, this.PlantC.Object);
+      weedLogger = new Mock<ILogger<WeedManager>>();
+      WeedManager = new WeedManager(weedLogger.Object, this.PlantC.Object);
     }
 
     [Test]
@@ -88,6 +92,68 @@ namespace Stampin.Api.Test
       var result = TreeManager.GetTrees("Id=1&Name=Acer&Deciduous=false&Conifer=false&FallColor=true&SpringFlowers=true");
       Assert.IsTrue(result.Success.Successfull == false && result?.Trees.Count == 3);
       Assert.IsTrue(result?.Trees["FallColor"].Count == 2 && result?.Trees["FallColor"][1].Name != springTrees.Values[1].Name);
+    }
+
+
+
+    [Test]
+    public void GetWeedsById()
+    {
+      var expected = new Response<Weed> { Successfull = true, Values = new Weed { OverallColor = Color.Green, Thorns = false, FlowerColor = Color.White, Id = 1, Name = "Malva Neglecta" } };
+      this.PlantC.Setup(x => x.GetweedById(It.IsAny<int>())).Returns(expected);
+      var result = TreeManager.GetTrees("Id=1");
+      Assert.IsTrue(expected.Successfull == result.Success.Successfull && expected.Values.Name == result.Trees["Id"][0].Name);
+    }
+
+    [Test]
+    public void GetWeedsByIdZero()
+    {
+      var expected = new Response<Weed> { Successfull = false, Values = null };
+      this.PlantC.Setup(x => x.GetweedById(It.IsAny<int>())).Returns(expected);
+      var result = WeedManager.GetWeeds("Id=0");
+      Assert.IsTrue(expected.Successfull == result.Success.Successfull && result?.Weeds.Count == 0);
+    }
+
+    [Test]
+    public void GetWeedsByIdString()
+    {
+      var expected = new Response<Weed> { Successfull = false, Values = null };
+      this.PlantC.Setup(x => x.GetweedById(It.IsAny<int>())).Returns(expected);
+      var result = WeedManager.GetWeeds("Id=F");
+      Assert.IsTrue(expected.Successfull == result.Success.Successfull && result?.Weeds.Count == 0);
+    }
+
+    [Test]
+    public void GetWeedByIdSpelling()
+    {
+      var expected = new Response<Weed> { Successfull = false, Values = null };
+      this.PlantC.Setup(x => x.GetweedById(It.IsAny<int>())).Returns(expected);
+      var result = WeedManager.GetWeeds("Is=1");
+      Assert.IsTrue(expected.Successfull == result.Success.Successfull && result?.Weeds.Count == 0);
+    }
+
+    [Test]
+    public void GetWeedsWithThorns()
+    {
+      var expected = new Response<List<Weed>> { Successfull = true, Values = new List<Weed>{ new Weed { OverallColor = Color.Green, Thorns = true, FlowerColor = Color.Purple, Id = 2, Name = "Bull Thistle" }, new Weed { OverallColor = Color.Green, Thorns = true, FlowerColor = Color.None, Id = 2, Name = "Musk Thistle" } } };
+      this.PlantC.Setup(x => x.GetWeedsWithThorns()).Returns(expected);
+      var result = WeedManager.GetWeeds("Thorns=true");
+      Assert.IsTrue(expected.Successfull == result.Success.Successfull && result?.Weeds.Count == 1);
+      Assert.IsTrue(result?.Weeds["Thorns"].Count == 2 && result?.Weeds["Thorns"][1].Name == expected.Values[1].Name);
+    }
+
+    [Test]
+    public void GetWeeds()
+    {
+      var thornWeeds = new Response<List<Weed>> { Successfull = true, Values = new List<Weed> { new Weed { OverallColor = Color.Green, Thorns = true, FlowerColor = Color.Purple, Id = 2, Name = "Bull Thistle" }, new Weed { OverallColor = Color.Green, Thorns = true, FlowerColor = Color.None, Id = 2, Name = "Musk Thistle" } } };
+      var flower = new Response<List<Weed>> { Successfull = true, Values = new List<Weed> { new Weed { OverallColor = Color.Green, Thorns = true, FlowerColor = Color.Purple, Id = 2, Name = "Bull Thistle" }, new Weed { OverallColor = Color.Green, Thorns = false, FlowerColor = Color.White, Id = 2, Name = "morning glory" } } };
+      var weedName = new Response<List<Weed>> { Successfull = true, Values = new List<Weed> { new Weed { OverallColor = Color.Green, Thorns = true, FlowerColor = Color.Purple, Id = 2, Name = "malva neglecta" }} };
+      this.PlantC.Setup(x => x.GetWeedsWithThorns()).Returns(thornWeeds);
+      this.PlantC.Setup(x => x.GetWeedsWithFlowerColor()).Returns(flower);
+      this.PlantC.Setup(x => x.GetWeedsByName("malva neglecta")).Returns(weedName);
+      var result = WeedManager.GetWeeds("Id=1&Name=malva neglecta&Thorns=true&FlowerColor=true&SpringFlowers=true");
+      Assert.IsTrue(result.Success.Successfull == false && result?.Weeds.Count == 3);
+      Assert.IsTrue(result?.Weeds["FlowerColor"].Count == 2 && result?.Weeds["Thorns"][1].Name == thornWeeds.Values[1].Name);
     }
   }
 }

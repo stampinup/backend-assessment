@@ -20,8 +20,9 @@ namespace Stampin.Api.Business
     /// </summary>
     private readonly IPlantContext PlantContext;
 
-    public WeedManager()
+    public WeedManager(ILogger<WeedManager> logger, IPlantContext plantc)
     {
+      this.PlantContext = plantc;
     }
     public WeedManager(ILogger<WeedManager> logger, IServiceProvider serviceProvider)
     {
