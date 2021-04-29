@@ -101,8 +101,8 @@ namespace Stampin.Api.Test
     {
       var expected = new Response<Weed> { Successfull = true, Values = new Weed { OverallColor = Color.Green, Thorns = false, FlowerColor = Color.White, Id = 1, Name = "Malva Neglecta" } };
       this.PlantC.Setup(x => x.GetweedById(It.IsAny<int>())).Returns(expected);
-      var result = TreeManager.GetTrees("Id=1");
-      Assert.IsTrue(expected.Successfull == result.Success.Successfull && expected.Values.Name == result.Trees["Id"][0].Name);
+      var result = WeedManager.GetWeeds("Id=1");
+      Assert.IsTrue(expected.Successfull == result.Success.Successfull && expected.Values.Name == result.Weeds["Id"][0].Name);
     }
 
     [Test]
